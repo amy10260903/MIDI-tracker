@@ -26,7 +26,7 @@ html, body {
 /* Header */
 .header {
     margin: 15vh auto 0 auto;
-    width: 580px;
+    width: 600px;
     height: 124px;
     display: flex;
     align-items: center;
@@ -82,6 +82,7 @@ html, body {
 .main .container .file-box .text {
     display: flex;
     margin: 5px 0;
+    font-size: 18px;
 }
 .main .container .file-box img {
     width: 20px;
@@ -89,4 +90,51 @@ html, body {
 }
 .main .container .file-box .button {
     margin-top: 35px;
+}
+
+/* Loader */
+.loading-box {
+    margin: 0 auto;
+    width: 680px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loading-box .text {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #7F8C8D;
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    background-color: #E4E7E7;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: 10px 0;
+}
+.loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    background-color: #BDC3C7;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
