@@ -20,35 +20,79 @@
     </div>
 </section>
 <section class="main">
-  <div class="container">
-      <form class="upload-box" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-          <img src="{% static 'images/icon-upload.png' %}">
-          <div class="text" id="file-drop">
-              Drag &amp; Drop to Upload File <br/>
-              OR
-          </div>
-          <input type="file" id="file-upload" hidden></input>
-          <label for="file-upload" class="button">Browse File</label>
-      </form>
-      <div class="file-box">
-          <div class="button" onclick="submitForm(event)">Submit</div>
-      </div>
-  </div>
+    <div class="container">
+        <form class="upload-box" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            <img src="{% static 'images/icon-upload.png' %}">
+            <div class="text" id="file-drop">
+                Drag &amp; Drop to Upload File <br/>
+                OR
+            </div>
+            <input type="file" id="file-upload" hidden></input>
+            <label for="file-upload" class="button">Browse File</label>
+        </form>
+        <div class="file-box" id="file-box">
+            <div class="button" onclick="submitForm(event)">Submit</div>
+        </div>
+        <div class="loading-box">
+            <span class="loader"></span>
+            <div class="text">Generating! Please wait...</div>
+        </div>
+        <div class="file-box" id="download-box">
+            <div class="button" onclick="downloadFile(event)">Download</div>
+        </div>
+    </div>
+
 </section>
 <script>
     let formData = new FormData();
     let csrftoken = '{{ csrf_token }}'
     let base_url = '{{ base_url }}'
     $('.file-box').hide();
+    $('.loading-box').hide();
+
+    const Loader = {
+        'show': function () {
+            $('#file-box').hide();
+            $('.loading-box').show();
+        },
+        'hide': function () {
+            $('.loading-box').hide();
+            $('#download-box').show();
+        }
+    }
 
     function showFileList() {
         $('.upload-box').hide();
-        $('.file-box').show();
+        $('#file-box').show();
     }
 
     function addFile(file) {
-        $('.file-box').prepend(`<div class="text"><img src="{% static 'images/icon-file.png' %}"><div>${file.name}</div></div>`)
+        $('#file-box').prepend(`<div class="text"><img src="{% static 'images/icon-file.png' %}"><div>${file.name}</div></div>`)
         formData.append('file', file);
+    }
+
+    function parseFile(data) {
+        console.log(data)
+    }
+    function submitForm(ev) {
+        ev.preventDefault();
+        console.log('submit')
+        console.log(formData.get('file'));
+
+        let url = `${base_url}/api/upload/`
+        formData.append('csrfmiddlewaretoken', csrftoken);
+
+        Loader.show();
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        }).then((response) => {
+            console.log(response);
+            parseFile(response.data);
+            Loader.hide();
+        }).catch(() => {
+
+        })
     }
 
     $('#file-upload').change(function() {
@@ -60,22 +104,6 @@
         })
         showFileList();
     })
-    function submitForm(ev) {
-        ev.preventDefault();
-        console.log('submit')
-        console.log(formData.get('file'));
-
-        let url = `${base_url}/api/upload/`
-        formData.append('csrfmiddlewaretoken', csrftoken);
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        }).then((response) => {
-            console.log(response);
-        }).catch(() => {
-
-        })
-    }
 </script>
 </body>
 </html>
