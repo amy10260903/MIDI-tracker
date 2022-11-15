@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+DOWNLOAD_DIR = BASE_DIR / 'download'
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,8 +32,8 @@ ALLOWED_HOSTS = [
     'localhost'
 ]
 
-BASE_URL = 'http://127.0.0.1:8000'
-# BASE_URL = 'http://54.254.225.74:8000'
+# BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = 'http://54.254.225.74:8000'
 
 # Application definition
 
