@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt && \
 
 RUN ["chmod", "+x", "docker-entrypoint.sh"]
 ENTRYPOINT ["sh", "./deploy/docker-entrypoint.sh"]
-CMD ["python", "./midi_tracker/manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["python", "./midi_tracker/manage.py", "runserver", "0.0.0.0:8000"]

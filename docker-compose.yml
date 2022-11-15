@@ -7,17 +7,11 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8080:8080"
+      - "8000:8000"
     networks:
-      default:
-        ipv4_address: 172.31.32.206
+      - default
 
 networks:
   default:
     name: midi-tracker
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.31.32.0/20
-          gateway: 172.31.32.1
