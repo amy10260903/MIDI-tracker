@@ -4,7 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MIDI Tracker</title>
+    <link rel="icon" type="image/png" href="{% static 'images/icon-midi.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Noto+Sans+TC:wght@300&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -38,15 +39,19 @@
             <div class="text">Generating! Please wait...</div>
         </div>
         <div class="file-box" id="download-box">
-            <div class="button" onclick="downloadFile(event)">Download</div>
+            <a id="download-link">
+                <div class="button">Download</div>
+            </a>
         </div>
     </div>
 
 </section>
 <script>
-    let formData = new FormData();
     let csrftoken = '{{ csrf_token }}'
     let base_url = '{{ base_url }}'
+    let formData = new FormData();
+    let filename = '';
+
     $('.file-box').hide();
     $('.loading-box').hide();
 
@@ -71,8 +76,11 @@
         formData.append('file', file);
     }
 
-    function parseFile(data) {
+    function getDownloadFile(data) {
         console.log(data)
+        $('#download-box').prepend(`<div class="text"><img src="{% static 'images/icon-file.png' %}"><div>${data.filename}</div></div>`)
+        $('#download-link').prop('href', data.url);
+        Loader.hide();
     }
     function submitForm(ev) {
         ev.preventDefault();
@@ -87,11 +95,11 @@
             method: 'POST',
             body: formData
         }).then((response) => {
-            console.log(response);
-            parseFile(response.data);
-            Loader.hide();
-        }).catch(() => {
-
+            return response.json()
+        }).then((data) => {
+            getDownloadFile(data)
+        }).catch(error => {
+            console.log(error)
         })
     }
 

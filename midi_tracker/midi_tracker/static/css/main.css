@@ -91,6 +91,22 @@ html, body {
 .main .container .file-box .button {
     margin-top: 35px;
 }
+.main .container .file-box a {
+    text-decoration: none;
+}
+
+/* Download */
+#download-link {
+    text-decoration: none;
+    color: #000;
+}
+#download-link .button {
+    background-color: #EFC75E;
+    transition: background-color 0.3s;
+}
+#download-link .button:hover {
+    background-color: #EFBE5E;
+}
 
 /* Loader */
 .loading-box {
@@ -116,7 +132,7 @@ html, body {
     background-color: #E4E7E7;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 .loader::after {
     content: '';

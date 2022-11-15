@@ -26,12 +26,13 @@ file_upload_view = api.FileUploadAPIView.as_view({
 })
 
 _api_urlpatterns = [
-    path('upload/', file_upload_view, name='file-upload')
+    path('upload/', file_upload_view, name='file-upload'),
 ]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('download/', views.downloadFile, name='file-download'),
 
     path('api/', include(_api_urlpatterns))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
